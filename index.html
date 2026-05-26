@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +34,35 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-track{background:var(--ink)}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--ice));border-radius:99px}
 
+/* ══════════════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════════════ */
+#loading-screen{
+  position:fixed;inset:0;background:var(--ink);z-index:99999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  transition:opacity .6s ease,visibility .6s ease;
+}
+#loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.ls-logo{
+  width:90px;height:90px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dim));
+  border-radius:24px;display:flex;align-items:center;justify-content:center;
+  font-size:42px;
+  animation:lsPulse 1.8s ease-in-out infinite;
+  box-shadow:0 0 60px rgba(200,164,90,.5);
+}
+@keyframes lsPulse{0%,100%{transform:scale(1);box-shadow:0 0 40px rgba(200,164,90,.4)}50%{transform:scale(1.1);box-shadow:0 0 80px rgba(200,164,90,.8)}}
+.ls-text{font-family:var(--font);font-size:22px;font-weight:800;color:var(--white);letter-spacing:2px}
+.ls-sub{font-family:var(--font-body);font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase}
+.ls-bar-wrap{width:200px;height:3px;background:rgba(245,242,236,.08);border-radius:50px;overflow:hidden}
+.ls-bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--ice));border-radius:50px;animation:lsLoad 2s ease forwards}
+@keyframes lsLoad{0%{width:0}60%{width:70%}100%{width:100%}}
+.ls-drops{display:flex;gap:8px;margin-top:8px}
+.ls-drop{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:lsBounce 1.2s ease-in-out infinite}
+.ls-drop:nth-child(2){animation-delay:.2s;background:var(--ice)}
+.ls-drop:nth-child(3){animation-delay:.4s}
+@keyframes lsBounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-12px);opacity:1}}
+
 /* ═══ PROMO BAR ═══ */
 #promo-bar{background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-dim));padding:9px 5%;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;z-index:1100;overflow:hidden}
 #promo-bar::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.15) 50%,transparent 100%);animation:promShine 3s ease-in-out infinite}
@@ -50,7 +80,6 @@ a{text-decoration:none;color:inherit}
 #toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(12,16,24,.95);border:1px solid rgba(200,164,90,.28);border-radius:12px;padding:12px 24px;font-size:12.5px;font-weight:600;font-family:var(--font);color:var(--white);opacity:0;transition:all .36s;z-index:3500;backdrop-filter:blur(28px);box-shadow:0 16px 48px rgba(0,0,0,.7);pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ═══ GLOBAL BG ═══ */
 body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.18;mix-blend-mode:overlay}
 
 /* ═══════════ NAVBAR ═══════════ */
@@ -100,6 +129,22 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .hero-inner{position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:clamp(120px,15vw,170px) 5% clamp(90px,10vw,120px);display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,5vw,80px);align-items:center}
 .hero-text{animation:heroIn .95s ease both}
 @keyframes heroIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO LOGO IMAGE (centered above heading) ── */
+.hero-logo-img{
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:28px;
+  animation:heroLogoIn 1.1s ease both;
+}
+@keyframes heroLogoIn{from{opacity:0;transform:translateY(-20px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+.hero-logo-img img{
+  height:clamp(70px,10vw,110px);
+  width:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 0 32px rgba(200,164,90,.45)) drop-shadow(0 4px 24px rgba(0,0,0,.7));
+  border-radius:18px;
+}
+
 .hero-chip{display:inline-flex;align-items:center;gap:10px;background:rgba(200,164,90,.08);border:1px solid rgba(200,164,90,.28);color:var(--gold-2);padding:8px 22px;border-radius:50px;font-family:var(--font);font-size:8.5px;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:24px}
 .chip-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-2);animation:dotPulse 2.2s ease-in-out infinite;box-shadow:0 0 10px var(--gold)}
 @keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.8);opacity:.4}}
@@ -121,16 +166,12 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;animation:heroVisIn 1.1s ease .3s both}
 @keyframes heroVisIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 .hero-carousel-wrap{position:relative;width:100%;max-width:470px;margin:0 auto}
-
-/* orbiting rings */
 .h-orbit{position:absolute;border-radius:50%;border:1px solid rgba(200,164,90,.1);animation:orbitSpin linear infinite;pointer-events:none;z-index:0}
 .h-orbit-1{inset:-48px;animation-duration:32s}
 .h-orbit-2{inset:-16px;border-style:dashed;border-color:rgba(110,201,222,.09);animation-duration:22s;animation-direction:reverse}
 .h-orbit::before{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
 .h-orbit-2::before{background:var(--ice);box-shadow:0 0 14px var(--ice)}
 @keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
-/* carousel frame */
 .carousel-frame{position:relative;z-index:2;width:100%;border-radius:28px;overflow:hidden;border:2px solid rgba(200,164,90,.28);box-shadow:0 40px 90px rgba(0,0,0,.7),0 0 0 8px rgba(200,164,90,.06),inset 0 1px 0 rgba(200,164,90,.2)}
 .carousel-slides{display:flex;transition:transform .8s cubic-bezier(.77,0,.175,1);will-change:transform}
 .carousel-slide{min-width:100%;position:relative;aspect-ratio:4/3}
@@ -139,16 +180,12 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .slide-caption{position:absolute;bottom:0;left:0;right:0;padding:22px 24px}
 .slide-caption h4{font-family:var(--font);font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px}
 .slide-caption p{font-family:var(--font-body);font-size:11px;color:var(--gold-2);letter-spacing:.5px}
-
-/* carousel controls */
 .carousel-dots{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
 .cdot{width:28px;height:4px;border-radius:2px;background:rgba(200,164,90,.28);cursor:pointer;transition:all .36s}
 .cdot.active{background:var(--gold);width:44px}
 .carousel-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none;z-index:3}
 .c-arrow{width:38px;height:38px;border-radius:50%;background:rgba(5,7,9,.7);border:1px solid rgba(200,164,90,.3);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:all;transition:var(--t);backdrop-filter:blur(8px);font-size:13px}
 .c-arrow:hover{background:rgba(200,164,90,.22);border-color:var(--gold);transform:scale(1.1)}
-
-/* floating badges */
 .float-badge{position:absolute;background:rgba(5,7,9,.93);border:1px solid var(--gb2);border-radius:14px;padding:11px 17px;backdrop-filter:blur(22px);display:flex;align-items:center;gap:10px;z-index:3}
 .float-badge.t{top:-5%;right:-14%;animation:floatBob 4.5s ease-in-out infinite}
 .float-badge.b{bottom:12%;left:-14%;animation:floatBob 4.5s ease-in-out 2.2s infinite}
@@ -156,8 +193,6 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .float-badge i{font-size:18px;color:var(--gold)}
 .float-badge span{font-family:var(--font);font-size:12px;font-weight:700}
 .float-badge small{display:block;font-family:var(--font-body);font-size:8.5px;color:var(--muted);letter-spacing:.8px}
-
-/* hero wave */
 .hero-wave{position:absolute;bottom:0;left:0;right:0;pointer-events:none;z-index:2}
 .hero-wave svg{width:100%;height:clamp(60px,8vw,120px)}
 
@@ -169,8 +204,6 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .sec-title{font-family:var(--font-serif);font-size:clamp(28px,4vw,56px);font-weight:600;line-height:1.06;letter-spacing:-.8px;margin-bottom:18px}
 .sec-sub{font-size:clamp(13px,1.4vw,15px);color:var(--muted-2);line-height:1.9;max-width:520px;margin-bottom:60px}
 .divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,90,.09),transparent)}
-
-/* ── SECTION WITH FULL BG IMAGE ── */
 .sec-bg-wrap{position:relative;overflow:hidden}
 .sec-bg-wrap > .sec-bg-photo{position:absolute;inset:0;z-index:0;pointer-events:none}
 .sec-bg-photo img{width:100%;height:100%;object-fit:cover;opacity:.07;filter:grayscale(80%) blur(1px)}
@@ -209,7 +242,6 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .bc-add{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:8px 22px;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:var(--t);align-self:flex-start}
 .bc-add:hover,.bc-add.added{background:var(--gold);color:var(--ink)}
 .bc-badge{position:absolute;top:15px;right:15px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:3px 9px;border-radius:6px;font-size:8.5px;font-weight:700;font-family:var(--font)}
-
 #cart-strip{position:fixed;bottom:0;left:0;right:0;background:rgba(9,12,18,.97);border-top:1px solid rgba(200,164,90,.28);padding:15px 5%;display:flex;align-items:center;justify-content:space-between;z-index:900;transform:translateY(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94);backdrop-filter:blur(24px)}
 #cart-strip.visible{transform:translateY(0)}
 .cs-info{display:flex;flex-direction:column;gap:2px}
@@ -397,6 +429,70 @@ body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml
 .wg-title{font-family:var(--font-serif);font-size:18px;font-weight:600;margin-bottom:10px}
 .wg-desc{font-size:12px;color:var(--muted-2);line-height:1.8}
 
+/* ══════════════════════════════════════════════
+   COMPARISON TABLE (Waterman vs Others)
+══════════════════════════════════════════════ */
+#comparison{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(9,12,18,.97),rgba(5,7,9,1))}
+.comparison-wrap{max-width:900px;margin:60px auto 0;position:relative;z-index:1}
+.comp-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:20px;overflow:hidden}
+.comp-head th{padding:22px 20px;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.comp-head th:first-child{text-align:left;color:var(--muted);width:36%}
+.comp-head .th-waterman{background:linear-gradient(135deg,rgba(200,164,90,.18),rgba(200,164,90,.08));color:var(--gold-2);border-radius:16px 16px 0 0;text-align:center;width:22%}
+.comp-head .th-other{background:rgba(245,242,236,.03);color:var(--muted);text-align:center;width:21%}
+.comp-head .th-local{background:rgba(245,242,236,.02);color:var(--muted);text-align:center;width:21%}
+.comp-row{border-bottom:1px solid rgba(245,242,236,.045)}
+.comp-row:last-child{border-bottom:none}
+.comp-row:hover .comp-feat{background:rgba(200,164,90,.04)}
+.comp-row:hover .comp-waterman{background:rgba(200,164,90,.14)}
+.comp-feat{padding:18px 20px;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--muted-2);background:rgba(245,242,236,.02);transition:background .2s}
+.comp-waterman{padding:18px 20px;text-align:center;background:rgba(200,164,90,.08);border-left:1px solid rgba(200,164,90,.12);border-right:1px solid rgba(200,164,90,.12);transition:background .2s}
+.comp-other,.comp-local{padding:18px 20px;text-align:center;background:rgba(245,242,236,.015);transition:background .2s}
+.comp-other:hover,.comp-local:hover{background:rgba(245,242,236,.03)}
+.comp-check{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(34,197,94,.15);border:1.5px solid rgba(34,197,94,.4)}
+.comp-check i{color:#22c55e;font-size:12px}
+.comp-cross{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3)}
+.comp-cross i{color:#ef4444;font-size:11px}
+.comp-text-good{font-family:var(--font);font-size:11px;font-weight:700;color:var(--gold-2)}
+.comp-text-bad{font-family:var(--font);font-size:10.5px;color:var(--muted);font-weight:500}
+.comp-top-banner{background:linear-gradient(135deg,var(--gold),var(--gold-dim));border-radius:16px 16px 0 0;padding:10px;text-align:center;font-family:var(--font);font-size:9px;font-weight:800;color:var(--ink);letter-spacing:3px;text-transform:uppercase;margin-bottom:-2px}
+
+/* ══════════════════════════════════════════════
+   MULTI-BRAND SERVICE SECTION
+══════════════════════════════════════════════ */
+#multi-brand{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(5,7,9,1),rgba(9,12,18,.98))}
+.brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px;max-width:780px;margin-left:auto;margin-right:auto}
+.brand-card{
+  background:rgba(245,242,236,.03);
+  border:1px solid rgba(245,242,236,.07);
+  border-radius:18px;padding:26px 20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  transition:var(--t);cursor:default;position:relative;overflow:hidden;min-height:100px;
+}
+.brand-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,90,.06),transparent);opacity:0;transition:opacity .3s}
+.brand-card:hover{transform:translateY(-6px);border-color:rgba(200,164,90,.28);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.brand-card:hover::before{opacity:1}
+.brand-logo-text{font-family:var(--font);font-size:clamp(14px,2vw,18px);font-weight:800;letter-spacing:-0.5px}
+.brand-more{font-family:var(--font-serif);font-size:clamp(16px,2vw,20px);font-weight:600;font-style:italic;color:var(--muted-2)}
+.brand-sub{font-family:var(--font);font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:-4px}
+.brand-compat-note{text-align:center;margin-top:32px;font-family:var(--font-body);font-size:13.5px;color:var(--muted-2);line-height:1.8}
+.brand-compat-note strong{color:var(--gold-2)}
+
+/* Warranty badge strip */
+.warranty-strip{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:52px;padding:28px;
+  background:linear-gradient(135deg,rgba(200,164,90,.08),rgba(110,201,222,.04));
+  border:1px solid rgba(200,164,90,.2);
+  border-radius:20px;
+  position:relative;overflow:hidden;
+}
+.warranty-strip::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.warranty-item{display:flex;align-items:center;gap:12px;padding:12px 20px;background:rgba(245,242,236,.04);border:1px solid rgba(245,242,236,.07);border-radius:13px;transition:var(--t)}
+.warranty-item:hover{background:rgba(200,164,90,.1);border-color:rgba(200,164,90,.28);transform:translateY(-3px)}
+.warranty-item .wi-icon{font-size:22px}
+.warranty-item .wi-text{font-family:var(--font);font-size:12px;font-weight:700;color:var(--gold-2)}
+.warranty-item .wi-sub{font-family:var(--font-body);font-size:10.5px;color:var(--muted);margin-top:2px}
+
 /* ═══════════ MAP ═══════════ */
 .map-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px}
 .map-card{background:rgba(245,242,236,.025);border:1px solid var(--gb);border-radius:22px;overflow:hidden;transition:var(--t)}
@@ -464,32 +560,83 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
 .footer-cert-badges{display:flex;gap:10px;flex-wrap:wrap}
 .fcb{background:rgba(200,164,90,.08);border:1px solid rgba(200,164,90,.2);border-radius:8px;padding:5px 12px;font-family:var(--font);font-size:9px;font-weight:700;color:var(--gold);letter-spacing:1px}
 
-/* ═══════════ FLOATING BTNS ═══════════ */
-.floating-btns{position:fixed;bottom:clamp(22px,3vw,36px);right:clamp(18px,2vw,28px);display:flex;flex-direction:column;align-items:center;gap:11px;z-index:500}
-.fab{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:none;cursor:pointer;transition:var(--t);position:relative}
+/* ══════════════════════════════════════════════
+   FLOATING BUTTONS — FIXED OVERLAP
+   Call btn stacked above WhatsApp, no overlap
+   Chat bubble repositioned to left of the column
+══════════════════════════════════════════════ */
+.floating-btns{
+  position:fixed;
+  bottom:clamp(22px,3vw,36px);
+  right:clamp(18px,2vw,28px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  z-index:500;
+}
+.fab{
+  width:56px;height:56px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:21px;
+  border:none;cursor:pointer;
+  transition:var(--t);
+  position:relative;
+  flex-shrink:0;
+}
 .fab-wa{background:var(--green-2);color:#fff;box-shadow:0 8px 28px rgba(31,186,107,.5);animation:fabPulse 3.5s ease-in-out infinite}
 @keyframes fabPulse{0%,100%{box-shadow:0 8px 28px rgba(31,186,107,.5)}50%{box-shadow:0 8px 52px rgba(31,186,107,.88),0 0 0 10px rgba(31,186,107,.1)}}
 .fab-wa:hover{transform:scale(1.14)}
 .fab-call{background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:var(--ink);box-shadow:0 8px 28px rgba(200,164,90,.45)}
 .fab-call:hover{transform:scale(1.14);box-shadow:0 14px 42px rgba(200,164,90,.68)}
-.fab-tip{position:absolute;right:calc(100% + 13px);background:rgba(5,7,9,.95);border:1px solid var(--gb);border-radius:9px;padding:7px 14px;white-space:nowrap;font-family:var(--font);font-size:10px;font-weight:700;color:var(--white);opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(16px)}
+.fab-tip{
+  position:absolute;
+  right:calc(100% + 13px);
+  background:rgba(5,7,9,.95);
+  border:1px solid var(--gb);
+  border-radius:9px;
+  padding:7px 14px;
+  white-space:nowrap;
+  font-family:var(--font);font-size:10px;font-weight:700;
+  color:var(--white);
+  opacity:0;pointer-events:none;
+  transition:opacity .22s;
+  backdrop-filter:blur(16px);
+}
 .fab:hover .fab-tip{opacity:1}
-#back-to-top{position:fixed;bottom:clamp(22px,3vw,36px);left:clamp(18px,2vw,28px);width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,rgba(200,164,90,.16),rgba(9,12,18,.96));border:1px solid rgba(200,164,90,.28);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:var(--t);opacity:0;transform:translateY(20px);pointer-events:none;z-index:500;backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.44)}
-#back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
-#back-to-top:hover{background:linear-gradient(135deg,rgba(200,164,90,.4),rgba(122,95,40,.72));box-shadow:0 14px 32px rgba(200,164,90,.34);transform:translateY(-3px)}
 
-/* ═══ LIVE CHAT ═══ */
-#live-chat-bubble{position:fixed;bottom:clamp(100px,13vw,140px);right:clamp(18px,2vw,28px);z-index:500}
+/* Live Chat — moved to left side, separate z-layer */
+#live-chat-bubble{
+  position:fixed;
+  bottom:clamp(22px,3vw,36px);
+  left:clamp(18px,2vw,28px);
+  z-index:500;
+}
 .lcb-btn{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#5a5af0,#3a3abf);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 22px rgba(90,90,240,.45);transition:var(--t)}
 .lcb-btn:hover{transform:scale(1.12)}
 .lcb-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#ef4444;font-family:var(--font);font-size:8px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink)}
-.lcb-popup{position:absolute;bottom:60px;right:0;width:280px;background:rgba(9,12,18,.97);border:1px solid rgba(90,90,240,.3);border-radius:18px;padding:20px;backdrop-filter:blur(24px);box-shadow:0 20px 60px rgba(0,0,0,.7);display:none;animation:fadeUp .3s ease}
+.lcb-popup{
+  position:absolute;bottom:60px;left:0; /* opens to the RIGHT from left-positioned button */
+  width:280px;
+  background:rgba(9,12,18,.97);
+  border:1px solid rgba(90,90,240,.3);
+  border-radius:18px;padding:20px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  display:none;
+  animation:fadeUp .3s ease
+}
 .lcb-popup.show{display:block}
 .lcb-popup h5{font-family:var(--font);font-size:13px;font-weight:700;margin-bottom:4px}
 .lcb-popup p{font-size:11.5px;color:var(--muted-2);margin-bottom:14px;line-height:1.65}
 .lcb-options{display:flex;flex-direction:column;gap:8px}
 .lcb-opt{display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:10px;border:1px solid var(--gb);font-family:var(--font);font-size:11px;font-weight:600;color:var(--white);cursor:pointer;transition:var(--t);background:rgba(245,242,236,.03)}
 .lcb-opt:hover{background:rgba(200,164,90,.08);border-color:rgba(200,164,90,.24);color:var(--gold-2)}
+
+#back-to-top{position:fixed;bottom:clamp(22px,3vw,36px);left:80px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,rgba(200,164,90,.16),rgba(9,12,18,.96));border:1px solid rgba(200,164,90,.28);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:var(--t);opacity:0;transform:translateY(20px);pointer-events:none;z-index:500;backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.44)}
+#back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#back-to-top:hover{background:linear-gradient(135deg,rgba(200,164,90,.4),rgba(122,95,40,.72));box-shadow:0 14px 32px rgba(200,164,90,.34);transform:translateY(-3px)}
 
 /* ═══ REVEAL ═══ */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s ease,transform .75s ease}
@@ -500,7 +647,9 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
 .reveal-right.visible{opacity:1;transform:translateX(0)}
 .rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}
 
-/* ═══ RESPONSIVE ═══ */
+/* ══════════════════════════════════════════════
+   RESPONSIVE — Full coverage
+══════════════════════════════════════════════ */
 @media(max-width:1100px){
   .nav-links,.btn-wa-nav,.btn-call-nav{display:none}
   .hamburger{display:flex}
@@ -509,6 +658,7 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   .hero-visual{margin-top:52px;max-width:480px;margin-left:auto;margin-right:auto}
   .hero-btns,.hero-stats{justify-content:center}
   .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-logo-img{justify-content:center}
   .float-badge.t{right:-2%;top:-8%}
   .float-badge.b{left:-2%;bottom:4%}
   .about-grid{grid-template-columns:1fr}
@@ -526,10 +676,19 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   .services-grid{grid-template-columns:1fr}
   .booking-grid{grid-template-columns:repeat(2,1fr)}
   .water-guide-grid{grid-template-columns:repeat(3,1fr)}
+  .brand-grid{grid-template-columns:repeat(3,1fr)}
+  .comp-table{font-size:12px}
+  .product-feats-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:800px){
+  .brand-grid{grid-template-columns:repeat(2,1fr);max-width:500px}
+  .comp-feat{font-size:11.5px;padding:15px 12px}
+  .comp-waterman,.comp-other,.comp-local{padding:15px 8px}
 }
 @media(max-width:720px){
   .three-products-grid{grid-template-columns:1fr}
   .water-guide-grid{grid-template-columns:repeat(2,1fr)}
+  .tds-ranges{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:640px){
   .products-grid,.why-grid{grid-template-columns:1fr}
@@ -543,14 +702,37 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   .testi-card{min-width:300px}
   .product-feats-grid{grid-template-columns:1fr}
   .water-guide-grid{grid-template-columns:1fr}
-  .tds-ranges{grid-template-columns:repeat(3,1fr)}
+  .warranty-strip{gap:10px}
+  .warranty-item{flex-direction:column;text-align:center;padding:14px 12px}
+  .comp-text-bad,.comp-text-good{font-size:9px}
+  .comp-head th{font-size:8px;padding:14px 8px}
+  .comp-feat{font-size:10px;padding:12px 8px}
+  .brand-grid{grid-template-columns:repeat(2,1fr)}
+  #back-to-top{left:auto;right:80px}
 }
 @media(max-width:400px){
   .process-steps{grid-template-columns:1fr}
+  .tds-ranges{grid-template-columns:repeat(2,1fr)}
+  .brand-grid{grid-template-columns:1fr;max-width:280px}
 }
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════════
+     LOADING SCREEN
+══════════════════════════════════════════════ -->
+<div id="loading-screen">
+  <div class="ls-logo">💧</div>
+  <div class="ls-text">Waterman Purifiers</div>
+  <div class="ls-sub">Pure Water · Pure Life</div>
+  <div class="ls-bar-wrap"><div class="ls-bar"></div></div>
+  <div class="ls-drops">
+    <div class="ls-drop"></div>
+    <div class="ls-drop"></div>
+    <div class="ls-drop"></div>
+  </div>
+</div>
 
 <!-- ═══ PROMO BAR ═══ -->
 <div id="promo-bar">
@@ -566,17 +748,16 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
 <nav id="navbar">
   <a href="#" class="nav-logo">
     <div class="logo-mark">💧</div>
-    <!-- <div class="logo-text"><span class="lt1">Waterman</span><span class="lt2">Purifiers</span></div> -->
-        <div class="logo-text"><img src="waterlogo.jpeg" style="height: 80px; width: 100px;"></div>
+    <div class="logo-text"><img src="waterlogo.jpeg" style="height:80px;width:100px;object-fit:contain"></div>
   </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#booking">Services</a></li>
     <li><a href="#hero-products">Products</a></li>
-    <li><a href="#process">Process</a></li>
+    <li><a href="#comparison">Compare</a></li>
+    <li><a href="#multi-brand">Brands</a></li>
     <li><a href="#water-guide">Water Guide</a></li>
     <li><a href="#testimonials">Reviews</a></li>
-    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
@@ -590,10 +771,10 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   <a href="#about" onclick="closeMobile()">About</a>
   <a href="#booking" onclick="closeMobile()">Services</a>
   <a href="#hero-products" onclick="closeMobile()">Products</a>
-  <a href="#process" onclick="closeMobile()">Process</a>
+  <a href="#comparison" onclick="closeMobile()">Compare</a>
+  <a href="#multi-brand" onclick="closeMobile()">Brands</a>
   <a href="#water-guide" onclick="closeMobile()">Water Guide</a>
   <a href="#testimonials" onclick="closeMobile()">Reviews</a>
-  <a href="#faq" onclick="closeMobile()">FAQ</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
   <div class="mm-cta">
     <a href="https://wa.me/919700533504" target="_blank" class="btn-wa-nav">🟢 WhatsApp Us</a>
@@ -613,6 +794,11 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
 
     <!-- LEFT: TEXT -->
     <div class="hero-text">
+      <!-- LOGO IMAGE centered above heading -->
+      <div class="hero-logo-img">
+        <img src="waterlogo.jpeg" alt="Waterman Purifiers Logo"/>
+      </div>
+
       <div class="hero-chip"><span class="chip-dot"></span>💧 Advanced Water Technology — Nellore &amp; Tirupati</div>
       <h1 class="hero-h1">
         <span class="l1">Pure Water. ✨</span>
@@ -636,8 +822,6 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
       <div class="hero-carousel-wrap">
         <div class="h-orbit h-orbit-1"></div>
         <div class="h-orbit h-orbit-2"></div>
-
-        <!-- Floating badges -->
         <div class="float-badge t">
           <span style="font-size:22px">🛡️</span>
           <div><span>ISI Certified</span><small>Technology</small></div>
@@ -646,8 +830,6 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
           <span style="font-size:22px">⚡</span>
           <div><span>Free Install</span><small>Same-Day Available</small></div>
         </div>
-
-        <!-- Carousel -->
         <div class="carousel-frame">
           <div class="carousel-slides" id="carouselSlides">
             <div class="carousel-slide">
@@ -675,15 +857,11 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
               </div>
             </div>
           </div>
-
-          <!-- Arrows -->
           <div class="carousel-arrows">
             <button class="c-arrow" onclick="carouselPrev()"><i class="fas fa-chevron-left"></i></button>
             <button class="c-arrow" onclick="carouselNext()"><i class="fas fa-chevron-right"></i></button>
           </div>
         </div>
-
-        <!-- Dots -->
         <div class="carousel-dots" id="carouselDots"></div>
       </div>
     </div>
@@ -709,8 +887,8 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
     <div class="trust-item"><span>🌟</span><span>5000+ Happy Families</span></div>
     <div class="trust-item"><span>🔧</span><span>Expert Technicians</span></div>
     <div class="trust-item"><span>✅</span><span>Genuine Parts Only</span></div>
-    <div class="trust-item"><span>🏪</span><span>Nellore &amp; Tirupati Branches</span></div>
-    <!-- duplicate for seamless loop -->
+    <div class="trust-item"><span>🏅</span><span>1-Year Spare Part Warranty</span></div>
+    <div class="trust-item"><span>🏪</span><span>Multi-Brand Service</span></div>
     <div class="trust-item"><span>🏆</span><span>ISI Certified Products</span></div>
     <div class="trust-item"><span>⚡</span><span>Same-Day Installation</span></div>
     <div class="trust-item"><span>🛡️</span><span>2-Year Warranty</span></div>
@@ -720,7 +898,8 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
     <div class="trust-item"><span>🌟</span><span>5000+ Happy Families</span></div>
     <div class="trust-item"><span>🔧</span><span>Expert Technicians</span></div>
     <div class="trust-item"><span>✅</span><span>Genuine Parts Only</span></div>
-    <div class="trust-item"><span>🏪</span><span>Nellore &amp; Tirupati Branches</span></div>
+    <div class="trust-item"><span>🏅</span><span>1-Year Spare Part Warranty</span></div>
+    <div class="trust-item"><span>🏪</span><span>Multi-Brand Service</span></div>
   </div>
 </div>
 <div class="divider"></div>
@@ -774,10 +953,10 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
         <p style="font-size:13.5px;color:var(--muted-2);line-height:1.9;margin-bottom:10px" class="reveal">We started with a simple mission — every family deserves clean, safe drinking water. Today, Waterman Purifiers proudly serves thousands of homes and businesses across Nellore and Tirupati. 🏠</p>
         <ul class="about-points">
           <li class="reveal"><span class="ap-emoji">⚛️</span><div><strong>Advanced Purification Technology</strong><span class="ap-sub">Multi-stage RO, UV, UF filtration removes 99.9% of bacteria, viruses, and heavy metals.</span></div></li>
-          <li class="reveal rd1"><span class="ap-emoji">🔧</span><div><strong>Professional Installation</strong><span class="ap-sub">Trained technicians with same-day service across Nellore &amp; Tirupati.</span></div></li>
-          <li class="reveal rd2"><span class="ap-emoji">⏰</span><div><strong>Quick Service Response</strong><span class="ap-sub">24-hour resolution guarantee for any service request.</span></div></li>
-          <li class="reveal rd3"><span class="ap-emoji">💸</span><div><strong>Affordable AMC Plans</strong><span class="ap-sub">Annual Maintenance Contracts that keep your purifier peak-performing.</span></div></li>
-          <li class="reveal rd4"><span class="ap-emoji">📍</span><div><strong>Trusted in Nellore &amp; Tirupati</strong><span class="ap-sub">Local expertise, regional reach — we know your water quality challenges.</span></div></li>
+          <li class="reveal rd1"><span class="ap-emoji">🛡️</span><div><strong>1-Year Warranty on Every Spare Part</strong><span class="ap-sub">Every Waterman spare part comes with a full one-year warranty — zero compromise on quality assurance.</span></div></li>
+          <li class="reveal rd2"><span class="ap-emoji">🔧</span><div><strong>Professional Installation</strong><span class="ap-sub">Trained technicians with same-day service across Nellore &amp; Tirupati.</span></div></li>
+          <li class="reveal rd3"><span class="ap-emoji">⏰</span><div><strong>Quick Service Response</strong><span class="ap-sub">24-hour resolution guarantee for any service request.</span></div></li>
+          <li class="reveal rd4"><span class="ap-emoji">💸</span><div><strong>Affordable AMC Plans</strong><span class="ap-sub">Annual Maintenance Contracts that keep your purifier peak-performing.</span></div></li>
         </ul>
       </div>
     </div>
@@ -790,12 +969,11 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   <div class="sec-bg-photo">
     <img src="https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1920&q=80" alt="products bg"/>
   </div>
-  <div class="hero-products-inner" style="max-width:1360px;margin:0 auto;padding:clamp(72px,9vw,120px) 5%">
+  <div style="max-width:1360px;margin:0 auto;padding:clamp(72px,9vw,120px) 5%">
     <div class="sec-tag">🌟 Our Products</div>
     <h2 class="sec-title reveal">Premium <span style="color:var(--gold)">Purifier Range</span></h2>
     <p style="font-size:clamp(13px,1.4vw,15px);color:var(--muted-2);line-height:1.9;max-width:520px;margin-bottom:0" class="reveal">Three distinct models engineered for every water quality challenge — from borewell to municipality supply. 💎</p>
     <div class="three-products-grid">
-
       <div class="tpg-card reveal">
         <div class="tpg-img">
           <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&q=85" alt="Waterman Titanium"/>
@@ -806,14 +984,13 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
           <div class="tpg-icon">👑</div>
           <h4>Waterman Titanium</h4>
           <div class="tpg-model">RO + UV + UF + Copper + Alkaline + Zinc</div>
-          <p>Our flagship 11-stage purifier — engineered for borewell, tanker, and municipal water with premium mineral enrichment through Copper, Alkaline, and Zinc technology. 💎</p>
+          <p>Our flagship 11-stage purifier — engineered for borewell, tanker, and municipal water with premium mineral enrichment. 💎</p>
           <div class="tpg-pills">
-            <span class="tpg-pill">🔥 11-Stage</span><span class="tpg-pill">💧 Borewell Ready</span><span class="tpg-pill">⚗️ Mineral+</span><span class="tpg-pill">🥉 Copper Tech</span>
+            <span class="tpg-pill">🔥 11-Stage</span><span class="tpg-pill">💧 Borewell Ready</span><span class="tpg-pill">⚗️ Mineral+</span>
           </div>
           <a href="https://wa.me/919700533504?text=Hello%20Waterman%2C%20I%20am%20interested%20in%20the%20Titanium%20model." target="_blank" class="tpg-btn">💬 Enquire Now</a>
         </div>
       </div>
-
       <div class="tpg-card reveal rd1">
         <div class="tpg-img">
           <img src="p3.jpeg" alt="Waterman Silver"/>
@@ -824,14 +1001,13 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
           <div class="tpg-icon">🛡️</div>
           <h4>Waterman Silver</h4>
           <div class="tpg-model">RO + UV + UF + TDS Controller</div>
-          <p>The ideal everyday purifier for homes on municipal supply. Seven-stage filtration with smart TDS control ensures consistently perfect water quality at an accessible price. 🏠</p>
+          <p>The ideal everyday purifier for homes on municipal supply. Seven-stage filtration with smart TDS control. 🏠</p>
           <div class="tpg-pills">
-            <span class="tpg-pill">✨ 7-Stage</span><span class="tpg-pill">🏙️ Municipal+</span><span class="tpg-pill">📊 TDS Control</span><span class="tpg-pill">☀️ UV Shield</span>
+            <span class="tpg-pill">✨ 7-Stage</span><span class="tpg-pill">🏙️ Municipal+</span><span class="tpg-pill">📊 TDS Control</span>
           </div>
           <a href="https://wa.me/919700533504?text=Hello%20Waterman%2C%20I%20am%20interested%20in%20the%20Silver%20model." target="_blank" class="tpg-btn">💬 Enquire Now</a>
         </div>
       </div>
-
       <div class="tpg-card reveal rd2">
         <div class="tpg-img">
           <img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800&q=85" alt="Waterman Aqua Compact"/>
@@ -842,14 +1018,13 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
           <div class="tpg-icon">📦</div>
           <h4>Waterman Aqua Compact</h4>
           <div class="tpg-model">RO + UV + UF — Space-Saving Design</div>
-          <p>Compact brilliance for modern kitchens. Full purification power in a sleek, space-saving unit — perfect for apartments, offices, and small households. 🏢</p>
+          <p>Compact brilliance for modern kitchens. Full purification power in a sleek, space-saving unit. 🏢</p>
           <div class="tpg-pills">
-            <span class="tpg-pill">📐 Compact</span><span class="tpg-pill">🏠 Under-counter</span><span class="tpg-pill">💼 Office Ready</span><span class="tpg-pill">🔩 Wall Mount</span>
+            <span class="tpg-pill">📐 Compact</span><span class="tpg-pill">🏠 Under-counter</span><span class="tpg-pill">💼 Office Ready</span>
           </div>
           <a href="https://wa.me/919700533504?text=Hello%20Waterman%2C%20I%20am%20interested%20in%20the%20Aqua%20Compact%20model." target="_blank" class="tpg-btn">💬 Enquire Now</a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -885,11 +1060,11 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
         <p style="font-family:var(--font-serif);font-style:italic;font-size:clamp(15px,1.7vw,20px);color:var(--muted-2);line-height:1.85;margin-bottom:36px" class="reveal">"The Titanium model represents the pinnacle of home water purification — combining RO, UV, and UF with essential mineral enrichment through Copper, Alkaline, and Zinc boosters for genuinely healthy water."</p>
         <div class="product-feats-grid">
           <div class="feat-item reveal"><span class="feat-emoji">🏗️</span><div><strong>11-Stage Purification</strong><span>Hospital-grade multi-barrier filtration</span></div></div>
-          <div class="feat-item reveal rd1"><span class="feat-emoji">⛰️</span><div><strong>Borewell Compatible</strong><span>Handles high TDS borewell water</span></div></div>
-          <div class="feat-item reveal rd2"><span class="feat-emoji">🚚</span><div><strong>Tanker Water Ready</strong><span>Safely purifies tanker water</span></div></div>
-          <div class="feat-item reveal rd3"><span class="feat-emoji">🏙️</span><div><strong>Municipality Ready</strong><span>Optimized for municipal supply</span></div></div>
-          <div class="feat-item reveal rd1"><span class="feat-emoji">🥉</span><div><strong>Copper Technology</strong><span>Natural copper infusion benefits</span></div></div>
-          <div class="feat-item reveal rd2"><span class="feat-emoji">⚗️</span><div><strong>Mineral Enrichment</strong><span>Zinc &amp; alkaline balanced pH water</span></div></div>
+          <div class="feat-item reveal rd1"><span class="feat-emoji">🛡️</span><div><strong>1-Year Spare Part Warranty</strong><span>Every part covered for a full year</span></div></div>
+          <div class="feat-item reveal rd2"><span class="feat-emoji">⛰️</span><div><strong>Borewell Compatible</strong><span>Handles high TDS borewell water</span></div></div>
+          <div class="feat-item reveal rd3"><span class="feat-emoji">🥉</span><div><strong>Copper Technology</strong><span>Natural copper infusion benefits</span></div></div>
+          <div class="feat-item reveal rd1"><span class="feat-emoji">⚗️</span><div><strong>Mineral Enrichment</strong><span>Zinc &amp; alkaline balanced pH water</span></div></div>
+          <div class="feat-item reveal rd2"><span class="feat-emoji">🏙️</span><div><strong>Municipality Ready</strong><span>Optimized for municipal supply</span></div></div>
         </div>
         <div class="product-cta-row reveal">
           <a href="#contact" class="btn-primary">📅 Book Free Demo</a>
@@ -908,6 +1083,180 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
     <h2 class="sec-title reveal">More Products <span style="color:var(--gold)">Coming Soon</span> 🚀</h2>
     <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:500px;margin:0 auto;line-height:1.85" class="reveal">Expanding our lineup to serve every water purification need — home, commercial, and industrial.</p>
     <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     COMPARISON TABLE — Waterman vs Others
+══════════════════════════════════════════════ -->
+<section id="comparison" class="sec-bg-wrap">
+  <div class="sec-bg-photo">
+    <img src="https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1920&q=80" alt="comparison bg"/>
+  </div>
+  <div class="sec" style="text-align:center">
+    <div class="sec-tag" style="justify-content:center">🏆 Why We're Different</div>
+    <h2 class="sec-title reveal">Waterman <span style="color:var(--gold)">vs</span> The Rest</h2>
+    <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:520px;margin:0 auto" class="reveal">See how Waterman Purifiers stacks up against other brands and local shops — there's simply no comparison. 🥇</p>
+
+    <div class="comparison-wrap reveal">
+      <div class="comp-top-banner">⭐ Waterman Purifiers — The Gold Standard in Water Purification</div>
+      <table class="comp-table">
+        <thead class="comp-head">
+          <tr>
+            <th></th>
+            <th class="th-waterman">💧 Waterman</th>
+            <th class="th-other">Other Brands</th>
+            <th class="th-local">Local Shops</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="comp-row">
+            <td class="comp-feat">🛡️ Spare Part Warranty</td>
+            <td class="comp-waterman"><span class="comp-text-good">1-Year on Every Part</span></td>
+            <td class="comp-other"><span class="comp-text-bad">Limited 3-month</span></td>
+            <td class="comp-local"><span class="comp-text-bad">No warranty</span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">✅ Genuine Parts</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-text-bad">Inconsistent</span></td>
+            <td class="comp-local"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">⚡ Same-Day Service</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-text-bad">Min 2–3 days</span></td>
+            <td class="comp-local"><span class="comp-text-bad">Unreliable</span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">👷 Trained Technicians</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-text-bad">3rd party staff</span></td>
+            <td class="comp-local"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">📞 24/7 Support</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+            <td class="comp-local"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">🏅 ISI Certified Products</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-text-bad">Varies by brand</span></td>
+            <td class="comp-local"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">🔬 Free Water Testing</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+            <td class="comp-local"><span class="comp-cross"><i class="fas fa-times"></i></span></td>
+          </tr>
+          <tr class="comp-row">
+            <td class="comp-feat">🔁 Multi-Brand Servicing</td>
+            <td class="comp-waterman"><span class="comp-check"><i class="fas fa-check"></i></span></td>
+            <td class="comp-other"><span class="comp-text-bad">Own brand only</span></td>
+            <td class="comp-local"><span class="comp-text-bad">Inconsistent</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:36px" class="reveal">
+      <a href="https://wa.me/919700533504?text=Hello%20Waterman%20Purifiers%2C%20I%20want%20to%20know%20more!" target="_blank" class="btn-primary" style="display:inline-flex">💬 Talk to Our Experts</a>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     MULTI-BRAND SALES & SERVICE
+══════════════════════════════════════════════ -->
+<section id="multi-brand" class="sec-bg-wrap">
+  <div class="sec-bg-photo">
+    <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=1920&q=80" alt="brands bg"/>
+  </div>
+  <div class="sec" style="text-align:center">
+    <div class="sec-tag" style="justify-content:center">🔧 Multi-Brand Expertise</div>
+    <h2 class="sec-title reveal">We Service &amp; Repair <span style="color:var(--gold)">All Major Brands</span></h2>
+    <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:560px;margin:0 auto" class="reveal">No matter which brand you own, our certified technicians are trained to service, repair, and maintain it — with genuine parts and a <strong style="color:var(--gold-2)">1-year warranty on every spare part</strong>. 🛡️</p>
+
+    <div class="brand-grid reveal">
+      <!-- Aquaguard -->
+      <div class="brand-card">
+        <div class="brand-logo-text" style="color:#009933">Aquaguard</div>
+        <div class="brand-sub">Sales &amp; Service</div>
+      </div>
+      <!-- Kent -->
+      <div class="brand-card">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div class="brand-logo-text" style="color:#0053a0;font-size:clamp(16px,2.4vw,22px)">KENT</div>
+          <div style="font-family:var(--font);font-size:7.5px;color:var(--ice);letter-spacing:1.5px">MINERAL RO</div>
+        </div>
+        <div class="brand-sub">Sales &amp; Service</div>
+      </div>
+      <!-- AO Smith -->
+      <div class="brand-card">
+        <div class="brand-logo-text" style="color:#c8a45a;font-size:clamp(13px,1.8vw,17px)">AO Smith.</div>
+        <div class="brand-sub">Sales &amp; Service</div>
+      </div>
+      <!-- Livpure -->
+      <div class="brand-card">
+        <div style="display:flex;align-items:center;gap:5px">
+          <div class="brand-logo-text" style="color:#e8392d">livpure</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#e8392d;margin-bottom:2px"></div>
+        </div>
+        <div class="brand-sub">Sales &amp; Service</div>
+      </div>
+      <!-- Havells -->
+      <div class="brand-card">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:22px;height:22px;border-radius:50%;background:#c8373a;display:flex;align-items:center;justify-content:center;font-size:12px">H</div>
+          <div class="brand-logo-text" style="color:#c8373a;font-size:clamp(14px,1.8vw,18px)">HAVELLS</div>
+        </div>
+        <div class="brand-sub">Sales &amp; Service</div>
+      </div>
+      <!-- More -->
+      <div class="brand-card">
+        <div class="brand-more">& more...</div>
+        <div class="brand-sub">All brands welcome</div>
+      </div>
+    </div>
+
+    <p class="brand-compat-note reveal">Our filters &amp; spare parts are compatible with <strong>Aquaguard, Kent, AO Smith, Livpure, Havells</strong>, and all other leading RO brands.</p>
+
+    <!-- WARRANTY STRIP -->
+    <div class="warranty-strip reveal" style="margin-top:52px">
+      <div class="warranty-item">
+        <span class="wi-icon">🛡️</span>
+        <div>
+          <div class="wi-text">1-Year Spare Part Warranty</div>
+          <div class="wi-sub">On every Waterman spare part, guaranteed</div>
+        </div>
+      </div>
+      <div class="warranty-item">
+        <span class="wi-icon">✅</span>
+        <div>
+          <div class="wi-text">100% Genuine Parts</div>
+          <div class="wi-sub">No duplicate, no compromise</div>
+        </div>
+      </div>
+      <div class="warranty-item">
+        <span class="wi-icon">🔧</span>
+        <div>
+          <div class="wi-text">Multi-Brand Certified</div>
+          <div class="wi-sub">Trained for all major RO brands</div>
+        </div>
+      </div>
+      <div class="warranty-item">
+        <span class="wi-icon">⚡</span>
+        <div>
+          <div class="wi-text">Same-Day Repair</div>
+          <div class="wi-sub">Fast turnaround, every time</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <div class="divider"></div>
@@ -952,7 +1301,7 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
           <div class="service-item"><span class="si-emoji">🔬</span><span>Free Water Quality Testing</span></div>
           <div class="service-item"><span class="si-emoji">💬</span><span>Product Consultation &amp; Live Demo</span></div>
           <div class="service-item"><span class="si-emoji">🚀</span><span>Same-Day Installation Available</span></div>
-          <div class="service-item"><span class="si-emoji">✅</span><span>Genuine Products with Full Warranty</span></div>
+          <div class="service-item"><span class="si-emoji">✅</span><span>Genuine Products — 1-Year Spare Part Warranty</span></div>
         </div>
       </div>
       <div class="service-col reveal-right">
@@ -960,7 +1309,7 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
         <div class="service-items">
           <div class="service-item"><span class="si-emoji">🔄</span><span>Filter Replacement Service</span></div>
           <div class="service-item"><span class="si-emoji">📅</span><span>Affordable Annual AMC Plans</span></div>
-          <div class="service-item"><span class="si-emoji">🛠️</span><span>Repair &amp; Comprehensive Servicing</span></div>
+          <div class="service-item"><span class="si-emoji">🛠️</span><span>Multi-Brand Repair &amp; Servicing</span></div>
           <div class="service-item"><span class="si-emoji">⚡</span><span>Emergency Support — 24/7</span></div>
           <div class="service-item"><span class="si-emoji">🛡️</span><span>Preventive Maintenance Programs</span></div>
         </div>
@@ -981,11 +1330,11 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
     <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:480px;margin:0 auto" class="reveal">Six reasons thousands of families trust us with their most essential resource.</p>
     <div class="why-grid">
       <div class="why-card reveal"><span class="why-emoji">🏅</span><h4>Certified Technology</h4><p>All purifiers meet international quality standards with verified ISI certifications.</p></div>
+      <div class="why-card reveal rd1"><span class="why-emoji">🛡️</span><h4>1-Year Part Warranty</h4><p>Every spare part carries a full one-year warranty — zero compromise on quality.</p></div>
+      <div class="why-card reveal rd2"><span class="why-emoji">🔧</span><h4>Multi-Brand Service</h4><p>We service &amp; repair all major brands — Aquaguard, Kent, AO Smith, Livpure &amp; more.</p></div>
       <div class="why-card reveal rd1"><span class="why-emoji">🚀</span><h4>Fast Installation</h4><p>Same-day installation across Nellore &amp; Tirupati by our trained field team.</p></div>
       <div class="why-card reveal rd2"><span class="why-emoji">💰</span><h4>Affordable Pricing</h4><p>Premium quality at transparent, competitive prices. No hidden charges ever.</p></div>
-      <div class="why-card reveal rd1"><span class="why-emoji">👷</span><h4>Expert Technicians</h4><p>10+ certified technicians with deep product knowledge and local expertise.</p></div>
-      <div class="why-card reveal rd2"><span class="why-emoji">🎧</span><h4>Premium Support</h4><p>Round-the-clock customer support via phone, WhatsApp, and in-person visits.</p></div>
-      <div class="why-card reveal rd3"><span class="why-emoji">💧</span><h4>Safe Mineral Water</h4><p>Healthy mineral-balanced water that goes beyond just removing contaminants.</p></div>
+      <div class="why-card reveal rd3"><span class="why-emoji">🎧</span><h4>Premium 24/7 Support</h4><p>Round-the-clock customer support via phone, WhatsApp, and in-person visits.</p></div>
     </div>
   </div>
 </section>
@@ -1012,44 +1361,14 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   <div class="sec" style="text-align:center">
     <div class="sec-tag" style="justify-content:center">📚 Water Education</div>
     <h2 class="sec-title reveal">Water <span style="color:var(--gold)">Quality Guide</span> 💧</h2>
-    <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:520px;margin:0 auto 0" class="reveal">Understanding your water quality is the first step to a healthier life. Know the TDS levels and what they mean for you.</p>
+    <p style="color:var(--muted-2);font-size:clamp(13px,1.4vw,15px);max-width:520px;margin:0 auto 0" class="reveal">Understanding your water quality is the first step to a healthier life.</p>
     <div class="water-guide-grid">
-      <div class="wg-card reveal" style="background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.22)">
-        <span class="wg-emoji">⚠️</span>
-        <div class="wg-ppm" style="color:#ef4444">0 – 50 ppm</div>
-        <div class="wg-title" style="color:#ef4444">Too Low</div>
-        <div class="wg-desc">Lacks essential minerals. Can leach minerals from your body. Not ideal for regular consumption.</div>
-      </div>
-      <div class="wg-card reveal rd1" style="background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.22)">
-        <span class="wg-emoji">✅</span>
-        <div class="wg-ppm" style="color:#22c55e">50 – 150 ppm</div>
-        <div class="wg-title" style="color:#22c55e">Excellent</div>
-        <div class="wg-desc">Perfect TDS range. Ideal mineral balance. Best for health and taste. WHO recommended range.</div>
-      </div>
-      <div class="wg-card reveal rd2" style="background:rgba(110,201,222,.04);border-color:rgba(110,201,222,.22)">
-        <span class="wg-emoji">👍</span>
-        <div class="wg-ppm" style="color:#6ec9de">150 – 300 ppm</div>
-        <div class="wg-title" style="color:#6ec9de">Good</div>
-        <div class="wg-desc">Acceptable quality. RO purifier can further improve taste and remove hidden contaminants.</div>
-      </div>
-      <div class="wg-card reveal rd3" style="background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.22)">
-        <span class="wg-emoji">⚡</span>
-        <div class="wg-ppm" style="color:#f59e0b">300 – 500 ppm</div>
-        <div class="wg-title" style="color:#f59e0b">Moderate</div>
-        <div class="wg-desc">Above ideal. Slight taste and health risk. RO purification is strongly recommended.</div>
-      </div>
-      <div class="wg-card reveal rd4" style="background:rgba(249,115,22,.04);border-color:rgba(249,115,22,.22)">
-        <span class="wg-emoji">🚫</span>
-        <div class="wg-ppm" style="color:#f97316">500 – 900 ppm</div>
-        <div class="wg-title" style="color:#f97316">High — Purify</div>
-        <div class="wg-desc">Unsafe for regular consumption. Health risks possible. Immediate RO installation needed.</div>
-      </div>
-      <div class="wg-card reveal rd3" style="background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.32)">
-        <span class="wg-emoji">🆘</span>
-        <div class="wg-ppm" style="color:#ef4444">900+ ppm</div>
-        <div class="wg-title" style="color:#ef4444">Dangerous!</div>
-        <div class="wg-desc">Extremely high TDS. Health hazard. Contact Waterman Purifiers immediately for urgent help!</div>
-      </div>
+      <div class="wg-card reveal" style="background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.22)"><span class="wg-emoji">⚠️</span><div class="wg-ppm" style="color:#ef4444">0 – 50 ppm</div><div class="wg-title" style="color:#ef4444">Too Low</div><div class="wg-desc">Lacks essential minerals. Can leach minerals from your body. Not ideal for regular consumption.</div></div>
+      <div class="wg-card reveal rd1" style="background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.22)"><span class="wg-emoji">✅</span><div class="wg-ppm" style="color:#22c55e">50 – 150 ppm</div><div class="wg-title" style="color:#22c55e">Excellent</div><div class="wg-desc">Perfect TDS range. Ideal mineral balance. Best for health and taste. WHO recommended range.</div></div>
+      <div class="wg-card reveal rd2" style="background:rgba(110,201,222,.04);border-color:rgba(110,201,222,.22)"><span class="wg-emoji">👍</span><div class="wg-ppm" style="color:#6ec9de">150 – 300 ppm</div><div class="wg-title" style="color:#6ec9de">Good</div><div class="wg-desc">Acceptable quality. RO purifier can further improve taste and remove hidden contaminants.</div></div>
+      <div class="wg-card reveal rd3" style="background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.22)"><span class="wg-emoji">⚡</span><div class="wg-ppm" style="color:#f59e0b">300 – 500 ppm</div><div class="wg-title" style="color:#f59e0b">Moderate</div><div class="wg-desc">Above ideal. Slight taste and health risk. RO purification is strongly recommended.</div></div>
+      <div class="wg-card reveal rd4" style="background:rgba(249,115,22,.04);border-color:rgba(249,115,22,.22)"><span class="wg-emoji">🚫</span><div class="wg-ppm" style="color:#f97316">500 – 900 ppm</div><div class="wg-title" style="color:#f97316">High — Purify</div><div class="wg-desc">Unsafe for regular consumption. Health risks possible. Immediate RO installation needed.</div></div>
+      <div class="wg-card reveal rd3" style="background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.32)"><span class="wg-emoji">🆘</span><div class="wg-ppm" style="color:#ef4444">900+ ppm</div><div class="wg-title" style="color:#ef4444">Dangerous!</div><div class="wg-desc">Extremely high TDS. Health hazard. Contact Waterman Purifiers immediately for urgent help!</div></div>
     </div>
   </div>
 </section>
@@ -1192,7 +1511,7 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="nav-logo" style="display:inline-flex"><div class="logo-mark">💧</div><div class="logo-text"><span class="lt1">Waterman</span><span class="lt2">Purifiers</span></div></a>
-        <p>💧 Pure Water. Pure Life. Premium RO water purification for every home and business across Nellore and Tirupati, Andhra Pradesh.</p>
+        <p>💧 Pure Water. Pure Life. Premium RO water purification for every home and business across Nellore and Tirupati, Andhra Pradesh. Multi-brand sales &amp; service with 1-year spare part warranty.</p>
         <div class="social-links">
           <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -1203,18 +1522,24 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul class="footer-links">
-          <li><a href="#about">🏢 About Us</a></li><li><a href="#booking">🛒 Book Service</a></li>
-          <li><a href="#hero-products">🌟 Products</a></li><li><a href="#process">⚙️ Our Process</a></li>
-          <li><a href="#water-guide">💧 Water Guide</a></li><li><a href="#faq">❓ FAQ</a></li>
+          <li><a href="#about">🏢 About Us</a></li>
+          <li><a href="#booking">🛒 Book Service</a></li>
+          <li><a href="#hero-products">🌟 Products</a></li>
+          <li><a href="#comparison">🏆 Compare</a></li>
+          <li><a href="#multi-brand">🔧 Brands We Service</a></li>
+          <li><a href="#water-guide">💧 Water Guide</a></li>
           <li><a href="#contact">📬 Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Services</h4>
         <ul class="footer-links">
-          <li><a href="#">💧 RO Installation</a></li><li><a href="#">🔄 Filter Replacement</a></li>
-          <li><a href="#">📅 AMC Plans</a></li><li><a href="#">🔬 Water Testing</a></li>
-          <li><a href="#">⚡ Emergency Repair</a></li><li><a href="#">🏭 Commercial RO</a></li>
+          <li><a href="#">💧 RO Installation</a></li>
+          <li><a href="#">🔄 Filter Replacement</a></li>
+          <li><a href="#">📅 AMC Plans</a></li>
+          <li><a href="#">🔬 Water Testing</a></li>
+          <li><a href="#">⚡ Emergency Repair</a></li>
+          <li><a href="#">🏭 Multi-Brand Service</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1230,7 +1555,8 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
       <div class="fcb">✅ ISI Certified</div>
       <div class="fcb">🏆 WHO Standards</div>
       <div class="fcb">🛡️ BIS Approved</div>
-      <div class="fcb">💯 Quality Assured</div>
+      <div class="fcb">🏅 1-Year Spare Warranty</div>
+      <div class="fcb">🔧 Multi-Brand Service</div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 <span>Waterman Purifiers</span>. All rights reserved. Founded by <span>P. Raja</span>. Made with ❤️ in AP.</p>
@@ -1239,13 +1565,20 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
   </div>
 </footer>
 
-<!-- ═══════════ FLOATING BUTTONS ═══════════ -->
+<!-- ═══════════ FLOATING BUTTONS — FIXED LAYOUT ═══════════ -->
+<!-- Right side: Call (top) then WhatsApp (bottom) stacked vertically -->
 <div class="floating-btns">
-  <a href="tel:+919700533504" class="fab fab-call"><i class="fas fa-phone"></i><span class="fab-tip">📞 Call Now</span></a>
-  <a href="https://wa.me/919700533504?text=Hello%20Waterman%20Purifiers%2C%20I%20am%20interested%20in%20your%20water%20purifier%20services." target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i><span class="fab-tip">💬 WhatsApp Us</span></a>
+  <a href="tel:+919700533504" class="fab fab-call">
+    <i class="fas fa-phone"></i>
+    <span class="fab-tip">📞 Call Now</span>
+  </a>
+  <a href="https://wa.me/919700533504?text=Hello%20Waterman%20Purifiers%2C%20I%20am%20interested%20in%20your%20water%20purifier%20services." target="_blank" class="fab fab-wa">
+    <i class="fab fa-whatsapp"></i>
+    <span class="fab-tip">💬 WhatsApp Us</span>
+  </a>
 </div>
 
-<!-- Live Chat Bubble -->
+<!-- Left side: Chat bubble (completely separate, no overlap possible) -->
 <div id="live-chat-bubble">
   <button class="lcb-btn" onclick="toggleLiveChat()"><i class="fas fa-comment-dots"></i></button>
   <div class="lcb-badge">1</div>
@@ -1264,6 +1597,15 @@ footer::before{content:'';position:absolute;top:-200px;left:50%;transform:transl
 
 <!-- ═══════════ JAVASCRIPT ═══════════ -->
 <script>
+/* ── LOADING SCREEN ── */
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.body.style.overflow = '';
+  }, 2200);
+});
+document.body.style.overflow = 'hidden';
+
 /* ── DATA ── */
 const bookingServices = [
   {icon:'🔄',title:'Filter Check-up',rating:'4.80',reviews:'131K',price:299,origPrice:399,badge:'Popular',id:'filter-checkup'},
@@ -1339,7 +1681,6 @@ productsData.forEach((p,i)=>{
 let currentSlide = 0;
 const totalSlides = 3;
 let carouselTimer;
-
 function buildCarouselDots(){
   const dotsEl = document.getElementById('carouselDots');
   for(let i=0;i<totalSlides;i++){
@@ -1349,31 +1690,20 @@ function buildCarouselDots(){
     dotsEl.appendChild(d);
   }
 }
-
 function goToSlide(n){
   currentSlide = (n + totalSlides) % totalSlides;
   document.getElementById('carouselSlides').style.transform = `translateX(-${currentSlide*100}%)`;
-  document.querySelectorAll('.cdot').forEach((d,i)=>{
-    d.classList.toggle('active', i===currentSlide);
-  });
+  document.querySelectorAll('.cdot').forEach((d,i)=>{d.classList.toggle('active', i===currentSlide);});
   resetTimer();
 }
-
 function carouselNext(){ goToSlide(currentSlide+1); }
 function carouselPrev(){ goToSlide(currentSlide-1); }
-
-function resetTimer(){
-  clearInterval(carouselTimer);
-  carouselTimer = setInterval(()=>goToSlide(currentSlide+1), 5000);
-}
-
+function resetTimer(){clearInterval(carouselTimer);carouselTimer = setInterval(()=>goToSlide(currentSlide+1), 5000);}
 buildCarouselDots();
 carouselTimer = setInterval(()=>goToSlide(currentSlide+1), 5000);
 
 /* ── LIVE CHAT ── */
-function toggleLiveChat(){
-  document.getElementById('lcbPopup').classList.toggle('show');
-}
+function toggleLiveChat(){document.getElementById('lcbPopup').classList.toggle('show');}
 
 /* ── SCROLL ── */
 const navbar=document.getElementById('navbar'),scrollBar=document.getElementById('scroll-progress'),btt=document.getElementById('back-to-top');
@@ -1418,7 +1748,7 @@ function checkTDS(){
   const value=document.getElementById('tdsValue'),bar=document.getElementById('tdsBar'),advice=document.getElementById('tdsAdvice');
   result.classList.add('show');
   let status,color,pct,tip;
-  if(val<50){status='⚠️ Very Low TDS';color='#f59e0b';pct=8;tip='🔴 TDS is too low — water lacks essential minerals. A mineral-adding RO purifier is recommended for healthy water.';}
+  if(val<50){status='⚠️ Very Low TDS';color='#f59e0b';pct=8;tip='🔴 TDS is too low — lacks essential minerals. A mineral-adding RO purifier is recommended.';}
   else if(val<=150){status='✅ Excellent Quality!';color='#22c55e';pct=25;tip='🟢 Your water TDS is in the ideal range. Great to drink! Consider UV protection for bacteria removal.';}
   else if(val<=300){status='👍 Good Quality';color='#6ec9de';pct=45;tip='🔵 Acceptable TDS level. An RO purifier will further improve taste and remove hidden contaminants.';}
   else if(val<=500){status='⚡ Moderate — RO Advised';color='#c8a45a';pct=62;tip='🟡 TDS is above ideal levels. We strongly recommend installing a Waterman RO purifier immediately.';}
@@ -1443,7 +1773,7 @@ const testimonials=[
   {name:'Ananya P.',loc:'Tirupati',text:'The copper-enriched water from Titanium has noticeably improved our entire family\'s health. Worth every rupee.',stars:5},
   {name:'Kiran T.',loc:'Nellore',text:'Transparent pricing, no hidden charges whatsoever. Filter replacement is affordable and done super quickly.',stars:5},
   {name:'Meena S.',loc:'Tirupati',text:'Switched from a competitor to Waterman. The difference in water quality and service is absolutely remarkable.',stars:5},
-  {name:'Ravi G.',loc:'Nellore',text:'Got the Silver model for our office. The whole team loves the water quality. Installation was seamless! 👍',stars:5},
+  {name:'Ravi G.',loc:'Nellore',text:'Got the Silver model for our office. The whole team loves the water quality. Installation was seamless!',stars:5},
   {name:'Deepa N.',loc:'Tirupati',text:'Waterman\'s technicians are so professional and punctual. AMC plan is the best investment for water purity.',stars:5},
 ];
 const track=document.getElementById('testiTrack');
@@ -1454,12 +1784,12 @@ const track=document.getElementById('testiTrack');
 /* ── FAQ ── */
 const faqs=[
   {q:'What TDS range is safe for drinking water?',a:'The ideal TDS for drinking water is between 50–150 ppm. TDS above 300 ppm is not recommended for regular consumption. Our Titanium model can reduce TDS to the ideal range regardless of source water quality. 💧',emoji:'💧'},
-  {q:'How often should RO filters be replaced?',a:'Sediment and carbon pre-filters should be replaced every 6–12 months. The RO membrane typically lasts 2–3 years. With our AMC plan, we handle all replacements automatically — you never have to worry! ✅',emoji:'🔄'},
+  {q:'Do you provide a warranty on spare parts?',a:'Yes! Every Waterman spare part comes with a full 1-year warranty. We use only 100% genuine parts in all our installations and repairs — no duplicates, no compromises. 🛡️',emoji:'🛡️'},
+  {q:'Do you service other brands like Kent, Aquaguard, AO Smith?',a:'Absolutely! Waterman Purifiers offers multi-brand service and repair for all major brands including Aquaguard, Kent, AO Smith, Livpure, Havells, and more. Our technicians are trained across all platforms. 🔧',emoji:'🔧'},
+  {q:'How often should RO filters be replaced?',a:'Sediment and carbon pre-filters every 6–12 months. The RO membrane typically lasts 2–3 years. With our AMC plan, we handle all replacements automatically — you never have to worry! ✅',emoji:'🔄'},
   {q:'Do you offer service in both Nellore and Tirupati?',a:'Yes! We have fully operational branches in both Nellore and Tirupati with dedicated technicians in each city. We also cover surrounding areas. Call us to confirm service availability in your specific location. 📍',emoji:'📍'},
   {q:'What is covered under the AMC plan?',a:'Our Annual Maintenance Contract covers all scheduled servicing visits, filter replacements (excluding RO membrane), labor charges, and emergency service calls. It\'s the most cost-effective way to keep your purifier running perfectly. 📅',emoji:'📅'},
   {q:'How long does installation take?',a:'Standard home installation takes approximately 1–2 hours. Our technician will visit, assess the installation point, set up the purifier, and test the water quality before leaving. Same-day installation is available! ⚡',emoji:'⚙️'},
-  {q:'Is the Waterman Titanium suitable for borewell water?',a:'Absolutely! The Titanium model is specifically designed to handle high-TDS borewell water. Its multi-stage RO+UV+UF system efficiently removes dissolved solids, heavy metals, bacteria, and viruses even from highly contaminated sources. 💪',emoji:'⛰️'},
-  {q:'What is the warranty on Waterman products?',a:'All Waterman products come with a 2-year comprehensive warranty covering manufacturing defects, parts, and service. Our AMC plans extend this protection further with priority support and scheduled maintenance. 🛡️',emoji:'🛡️'},
 ];
 const faqList=document.getElementById('faqList');
 faqs.forEach((f,i)=>{
@@ -1503,3 +1833,6 @@ setTimeout(()=>{
 </script>
 </body>
 </html>
+
+
+
